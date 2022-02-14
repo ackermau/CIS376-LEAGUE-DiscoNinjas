@@ -8,7 +8,7 @@ class Engine:
     height = 768
     visible_statistics = False
 
-    def __init__(self, title, scene, ):
+    def __init__(self, title, scene):
         self.title = title
         self.scene = scene
 
@@ -45,4 +45,22 @@ class Scene:
 
 
 
+class GameObject:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
 
+class UGameObject(GameObject):
+    # Implements just updateable
+    pass
+
+
+class DGameObject(GameObject):
+    # Impoements just drawable
+    pass
+
+
+class DUGameObject(UGameObject):
+    # Implements just drawable. Inherits updateable from UGameObject.
+    pass

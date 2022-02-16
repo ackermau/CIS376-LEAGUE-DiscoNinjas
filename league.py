@@ -7,6 +7,7 @@ class Engine:
     width = 1024
     height = 768
     visible_statistics = False
+    gameDelta = 0
 
     def __init__(self, title, scene):
         self.title = title
@@ -21,11 +22,33 @@ class Engine:
     def init_pygame():
         pass
 
-    def run():
-        pass
+    def run(self):
+        self.running = True
+
+        targetFrameTime = 33
+
+
+        while self.running:
+            pygame.init()
+            current = pygame.time.get_ticks()
+            last = current
+            delta = current - last
+
+            # Call updataeables
+
+            # Call drawables
+
+
+
+            # Busy wait until our delta time is equal to our target frame time in ms.
+            while delta < targetFrameTime:
+                current = pygame.time.get_ticks()
+                delta = current - last
+                self.gameDelta = delta / 1000
+
     
-    def stop():
-        pass
+    def stop(self):
+        self.running = False
 
     def end():
         pass
@@ -33,8 +56,8 @@ class Engine:
 
 
 class Scene:
-    updateables = []
-    drawables: pygame.sprite.LayeredDirty
+    # updateables = []
+    # drawables: pygame.sprite.LayeredDirty = []
     fps = 30
     
     def __init__(self, name):
@@ -52,15 +75,15 @@ class GameObject:
     
 
 class UGameObject(GameObject):
-    # Implements just updateable
+    # Implements just update
     pass
 
 
 class DGameObject(GameObject):
-    # Impoements just drawable
+    # Implements just draw
     pass
 
 
 class DUGameObject(UGameObject):
-    # Implements just drawable. Inherits updateable from UGameObject.
+    # Implements just draw. Inherits update from UGameObject.
     pass

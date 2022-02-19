@@ -25,8 +25,7 @@ class Engine:
     def run(self):
         self.running = True
 
-        targetFrameTime = 33
-
+        targetFrameTime = 1000/self.scene.fps
 
         while self.running:
             pygame.init()
@@ -45,6 +44,8 @@ class Engine:
                 current = pygame.time.get_ticks()
                 delta = current - last
                 self.gameDelta = delta / 1000
+            
+            print(self.gameDelta)
 
     
     def stop(self):

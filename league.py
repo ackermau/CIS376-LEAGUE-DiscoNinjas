@@ -1,5 +1,9 @@
+from tkinter import EventType
 import pygame
-
+from pygame.locals import (
+    KEYDOWN,
+    K_SPACE,
+)
 
 # Just placed these functions in the class for scaffolding.
 class Engine:
@@ -8,6 +12,7 @@ class Engine:
     height = 768
     visible_statistics = False
     delta_time = 0
+    events: pygame.key = []
 
     def __init__(self, title, scene):
         self.title = title
@@ -23,6 +28,7 @@ class Engine:
         pass
 
     def run(self):
+        pygame.init()
 
         background_color = (234, 212, 252)
 
@@ -43,7 +49,10 @@ class Engine:
         targetFrameTime = 1000/self.scene.fps
 
         while self.running:
-            pygame.init()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+
             current = pygame.time.get_ticks()
             last = current
             delta = current - last
@@ -53,8 +62,8 @@ class Engine:
                 obj.update()
 
             # Call drawables
-            # for obj in self.scene.drawables:
-            #     obj.update()
+            for obj in self.scene.drawables:
+                obj.draw(screen)
 
             pygame.display.flip()
 
@@ -63,6 +72,9 @@ class Engine:
                 current = pygame.time.get_ticks()
                 delta = current - last
                 self.delta_time = delta / 1000
+
+            if delta > 1000:
+                pygame.quit()
 
 
 
@@ -76,7 +88,7 @@ class Engine:
 
 class Scene:
     updateables = []
-    drawables: pygame.sprite.LayeredDirty = []
+    drawables : pygame.sprite.LayeredDirty = []
     fps = 30
     
     def __init__(self, name):
@@ -88,9 +100,9 @@ class Scene:
 
 
 class GameObject:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self):
+        self.x = 50
+        self.y = 50
     
 
 class UGameObject(GameObject):
@@ -104,5 +116,7 @@ class DGameObject(GameObject):
 
 
 class DUGameObject(UGameObject):
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
     # Implements just draw. Inherits update from UGameObject.
     pass

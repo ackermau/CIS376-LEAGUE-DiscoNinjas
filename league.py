@@ -31,7 +31,6 @@ class Engine:
 
         background_color = (234, 212, 252)
 
-
         # Define the dimensions of
         # screen object(width,height)
         screen = pygame.display.set_mode((self.width, self.height))
@@ -41,7 +40,6 @@ class Engine:
 
         # Fill the background colour to the screen
         screen.fill(background_color)
-
 
         self.running = True
 

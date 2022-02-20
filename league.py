@@ -1,4 +1,3 @@
-from tkinter import EventType
 import pygame
 from pygame.locals import (
     KEYDOWN,
@@ -57,6 +56,9 @@ class Engine:
             last = current
             delta = current - last
 
+            # This gotta be bad?
+            screen.fill(background_color)
+
             # Call updataeables
             for obj in self.scene.updateables:
                 obj.update()
@@ -88,7 +90,7 @@ class Engine:
 
 class Scene:
     updateables = []
-    drawables : pygame.sprite.LayeredDirty = []
+    drawables = []
     fps = 30
     
     def __init__(self, name):
@@ -106,17 +108,16 @@ class GameObject:
     
 
 class UGameObject(GameObject):
-    # Implements just update
-    pass
+    def update():
+        pass
 
 
 class DGameObject(GameObject):
-    # Implements just draw
-    pass
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
 
 
 class DUGameObject(UGameObject):
+    # Implements just draw. Inherits update from UGameObject.
     def draw(self, screen):
         screen.blit(self.image, self.rect)
-    # Implements just draw. Inherits update from UGameObject.
-    pass

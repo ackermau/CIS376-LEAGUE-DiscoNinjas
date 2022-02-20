@@ -2,8 +2,9 @@ import league
 import pygame as pg
 
 class Ball(league.DUGameObject):
-    def __init__(self):
+    def __init__(self, engine):
         super().__init__()
+        self.engine = engine
         self._layer = 1
         self.dirty = 2
         self.image = pg.Surface((32,32))
@@ -15,12 +16,9 @@ class Ball(league.DUGameObject):
         self.direction_x = 1
         self.direction_y = 1
 
-    # def draw(self, screen):
-    #     screen.blit(self.image, self.rect)
-
     def update(self):
-        self.x = self.x + league.Engine.delta_time * 1 * self.direction_x
-        self.y = self.y + league.Engine.delta_time * 1 * self.direction_y
+        self.x = self.x + self.engine.delta_time * 100 * self.direction_x
+        self.y = self.y + self.engine.delta_time * 100 * self.direction_y
         self.rect.x = self.x
         self.rect.y = self.y
         if self.rect.left < 0:
@@ -37,36 +35,13 @@ class Ball(league.DUGameObject):
             self.direction_y = self.direction_y * -1 
 
 
-class Controller(league.UGameObject):
-    def __init__(self):
-        super().__init__()
-    def update(self):
-        for event in league.Engine.events:
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_SPACE:
-                    print("success")
-                    # ball = Ball()
-                    # league.Engine.current_scene.updateables.append(ball)
-                    # league.Engine.current_scene.drawables.add(ball)
-                    # self.player.balls.add(ball)
-
-# class Player(league.DUGameObject):
-#     def __init__(self):
-#         super(Player, self).__init__()
-
-
-
 level_one = league.Scene("Level One")
-level_one.set_fps(30)
-ball = Ball()
-control = Controller()
-league.Scene.updateables.append(ball)
-league.Scene.updateables.append(control)
-
+level_one.set_fps(60)
 
 engine = league.Engine("EMGGG", level_one)
+ball = Ball(engine)
+level_one.drawables.append(ball)
+level_one.updateables.append(ball)
 
 engine.run()
-
-engine.stop()
 

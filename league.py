@@ -11,11 +11,13 @@ class Engine:
     height = 768
     visible_statistics = False
     delta_time = 0
-    events: pygame.key = []
+    events = None
 
+# Sets the title and the scene for the engine
     def __init__(self, title, scene):
         self.title = title
         self.scene = scene
+
 
     def toggle_statistics(self):
         self.visible_statistics = True
@@ -29,7 +31,9 @@ class Engine:
     def run(self):
         pygame.init()
 
+        
         background_color = (234, 212, 252)
+        self.events = pygame.event.get()
 
         # Define the dimensions of
         # screen object(width,height)
@@ -50,11 +54,13 @@ class Engine:
                 if event.type == pygame.QUIT:
                     self.running = False
 
+            
             current = pygame.time.get_ticks()
             last = current
             delta = current - last
 
             # This gotta be bad?
+            # Resets background to move an object without a copy of it
             screen.fill(background_color)
 
             # Call updataeables
@@ -65,6 +71,7 @@ class Engine:
             for obj in self.scene.drawables:
                 obj.draw(screen)
 
+            #changes the display to the second buffer
             pygame.display.flip()
 
             # Busy wait until our delta time is equal to our target frame time in ms.
@@ -73,6 +80,7 @@ class Engine:
                 delta = current - last
                 self.delta_time = delta / 1000
 
+            # If frames get too high the game will quit
             if delta > 1000:
                 pygame.quit()
 
@@ -87,13 +95,19 @@ class Engine:
 
 
 class Scene:
+    #Initializes the frames, draw gameobjects array, and the updateables array
+
     updateables = []
     drawables = []
     fps = 30
-    
+
+    #Sets the Scene name
+
     def __init__(self, name):
         self.name = name
-    
+
+    #Sets the Fps
+
     def set_fps(self, fps):
         self.fps = fps
 
@@ -109,11 +123,13 @@ class UGameObject(GameObject):
     def update():
         pass
 
+#Draw Class implamented by gameObjects
 
 class DGameObject(GameObject):
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
+#Draw Update Class implamented by gameObjects
 
 class DUGameObject(UGameObject):
     # Implements just draw. Inherits update from UGameObject.

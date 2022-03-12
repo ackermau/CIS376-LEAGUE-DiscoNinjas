@@ -25,7 +25,7 @@ class Engine:
     def show_statistics():
         pass
 
-    def init_pygame():
+    def init_pygame(self):
         pygame.init()
         
 

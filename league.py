@@ -7,8 +7,8 @@ from pygame.locals import (
 # Just placed these functions in the class for scaffolding.
 class Engine:
     running = False
-    width = 1024
-    height = 768
+    width = 1600
+    height = 800
     visible_statistics = False
     delta_time = 0
     events = None
@@ -26,10 +26,11 @@ class Engine:
         pass
 
     def init_pygame():
-        pass
+        pygame.init()
+        
 
     def run(self):
-        pygame.init()
+        
 
         
         background_color = (234, 212, 252)
@@ -96,7 +97,7 @@ class Engine:
 
 class Scene:
     #Initializes the frames, draw gameobjects array, and the updateables array
-
+    
     updateables = []
     drawables = []
     fps = 30

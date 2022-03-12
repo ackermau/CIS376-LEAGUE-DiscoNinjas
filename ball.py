@@ -1,6 +1,7 @@
 import league
 import pygame as pg
 
+
 class Ball(league.DUGameObject):
     def __init__(self, engine):
         super().__init__()
@@ -26,7 +27,7 @@ class Ball(league.DUGameObject):
         self.x = self.x + self.engine.delta_time * 100 * self.direction_x
         self.y = self.y + self.engine.delta_time * 100 * self.direction_y
         self.rect.x = self.x
-        self.rect.y = self.y
+        self.rect.y = -10
 
         #Keeps the ball on screen
         if self.rect.left < 0:
@@ -41,6 +42,7 @@ class Ball(league.DUGameObject):
         if self.rect.bottom > 768:
             self.rect.bottom = 768
             self.direction_y = -1
+        
         for event in self.engine.events:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_a:

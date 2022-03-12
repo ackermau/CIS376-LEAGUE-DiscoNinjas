@@ -7,8 +7,8 @@ from pygame.locals import (
 # Just placed these functions in the class for scaffolding.
 class Engine:
     running = False
-    width = 1600
-    height = 800
+    width = 800
+    height = 400
     visible_statistics = False
     delta_time = 0
     events = None

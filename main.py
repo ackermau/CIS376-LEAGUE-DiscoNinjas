@@ -15,8 +15,8 @@ screen = pygame.display.set_mode((1600, 800))
 map = load_pygame('test/baseMap.tmx')
 
 for layer in map.layers:
-    for x, y, image in map.layers[0].tiles():
-        tmp = league.DUGameObject()
+    for x, y, image in layer.tiles():
+        tmp = league.DGameObject()
         tmp._layer = layer
         tmp.image = image
         tmp.rect = tmp.image.get_rect()

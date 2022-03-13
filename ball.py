@@ -10,15 +10,15 @@ class Ball(league.DUGameObject):
         self.dirty = 2
 
         #Makeing of our ball
-        self.image = pg.Surface((32,32))
+        self.image = pg.Surface((32, 32))
         self.image.fill((150,210,220,0))
         self.image.set_alpha(128)
         pg.draw.circle(self.image, (0,101,164), (16, 16), 16)
 
         #Sets the Starting point of our Ball
         self.rect = self.image.get_rect()
-        self.x = 0
-        self.y = 0
+        self.x = 400
+        self.y = 400
         self.direction_x = 1
         self.direction_y = 1
 
@@ -31,27 +31,23 @@ class Ball(league.DUGameObject):
         self.rect.y = self.y
 
         #Keeps the ball on screen
-        if self.rect.left < 0:
-            self.rect.left = 0
-            self.direction_x = 1
-        if self.rect.right > 1023:
-            self.rect.right = 1023
-            self.direction_x = -1
-        if self.rect.top < 0:
-            self.rect.top = 0
-            self.direction_y = 1
-        if self.rect.bottom > 768:
-            self.rect.bottom = 768
-            self.direction_y = -1
+        # if self.rect.left < 0:
+        #     self.rect.left = 0
+        #     self.direction_x = 1
+        # if self.rect.right > 1023:
+        #     self.rect.right = 1023
+        #     self.direction_x = -1
+        # if self.rect.top < 0:
+        #     self.rect.top = 0
+        #     self.direction_y = 1
+        # if self.rect.bottom > 768:
+        #     self.rect.bottom = 768
+        #     self.direction_y = -1
         
         for event in self.engine.events:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_a:
-                    print("A")
-                    self.direction_x = -1
+                    self.direction_x = -2
                 if event.key == pg.K_d:
-                    print("D")
-                    self.direction_x = 1
+                    self.direction_x = 2
   
-
-       

@@ -2,7 +2,7 @@ import league
 import ball
 import pygame
 import pytmx
-level_one = pytmx.TiledMap('test/baseMap.tmx')
+level_one = pytmx.TiledMap('Map/baseMap.tmx')
 from pytmx.util_pygame import load_pygame
 
 level_one = league.Scene("Level One")
@@ -11,7 +11,7 @@ engine = league.Engine("Disco Ninjas blue ball          z", level_one)
 engine.init_pygame()
 
 screen = pygame.display.set_mode((1600, 800))
-map = load_pygame('test/baseMap.tmx')
+map = load_pygame('Map/baseMap.tmx')
 
 for layer in map.layers:
     for x, y, image in layer.tiles():

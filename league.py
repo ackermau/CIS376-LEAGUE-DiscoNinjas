@@ -8,7 +8,7 @@ from pygame.locals import (
 class Engine:
     running = False
     width = 800
-    height = 1200
+    height = 800
     visible_statistics = False
     delta_time = 0
     events = None
@@ -52,7 +52,6 @@ class Engine:
             for event in self.events:
                 if event.type == pygame.QUIT:
                     self.running = False
-
             
             current = pygame.time.get_ticks()
             last = current

@@ -7,8 +7,8 @@ from pygame.locals import (
 # Just placed these functions in the class for scaffolding.
 class Engine:
     running = False
-    width = 1024
-    height = 768
+    width = 800
+    height = 800
     visible_statistics = False
     delta_time = 0
     events = None
@@ -25,15 +25,12 @@ class Engine:
     def show_statistics():
         pass
 
-    def init_pygame():
-        pass
+    def init_pygame(self):
+        pygame.init()
+        
 
     def run(self):
-        pygame.init()
-
-        
         background_color = (234, 212, 252)
-        self.events = pygame.event.get()
 
         # Define the dimensions of
         # screen object(width,height)
@@ -50,10 +47,11 @@ class Engine:
         targetFrameTime = 1000/self.scene.fps
 
         while self.running:
-            for event in pygame.event.get():
+            self.events = pygame.event.get()
+
+            for event in self.events:
                 if event.type == pygame.QUIT:
                     self.running = False
-
             
             current = pygame.time.get_ticks()
             last = current
@@ -96,7 +94,7 @@ class Engine:
 
 class Scene:
     #Initializes the frames, draw gameobjects array, and the updateables array
-
+    
     updateables = []
     drawables = []
     fps = 30

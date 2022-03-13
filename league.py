@@ -97,6 +97,7 @@ class Scene:
     
     updateables = []
     drawables = []
+    collideables = []
     fps = 30
 
     #Sets the Scene name
@@ -118,7 +119,7 @@ class GameObject:
     
 
 class UGameObject(GameObject):
-    def update():
+    def update(self):
         pass
 
 #Draw Class implamented by gameObjects

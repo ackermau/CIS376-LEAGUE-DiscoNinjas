@@ -8,7 +8,7 @@ from pygame.locals import (
 class Engine:
     running = False
     width = 800
-    height = 400
+    height = 1200
     visible_statistics = False
     delta_time = 0
     events = None
@@ -30,11 +30,7 @@ class Engine:
         
 
     def run(self):
-        
-
-        
         background_color = (234, 212, 252)
-        self.events = pygame.event.get()
 
         # Define the dimensions of
         # screen object(width,height)
@@ -51,7 +47,9 @@ class Engine:
         targetFrameTime = 1000/self.scene.fps
 
         while self.running:
-            for event in pygame.event.get():
+            self.events = pygame.event.get()
+
+            for event in self.events:
                 if event.type == pygame.QUIT:
                     self.running = False
 

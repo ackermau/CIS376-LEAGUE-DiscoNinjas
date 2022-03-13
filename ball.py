@@ -47,8 +47,10 @@ class Ball(league.DUGameObject):
         for event in self.engine.events:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_a:
+                    print("A")
                     self.direction_x = -1
                 if event.key == pg.K_d:
+                    print("D")
                     self.direction_x = 1
   
 

@@ -11,7 +11,8 @@ class Ball(league.DUGameObject):
 
         #Makeing of our ball
         self.image = pg.Surface((32,32))
-        self.image.fill((255,255,255,0))
+        self.image.fill((150,210,220,0))
+        self.image.set_alpha(128)
         pg.draw.circle(self.image, (0,101,164), (16, 16), 16)
 
         #Sets the Starting point of our Ball
@@ -24,10 +25,10 @@ class Ball(league.DUGameObject):
     def update(self):
 
         #Moves our ball
-        self.x = self.x + self.engine.delta_time * 100 * self.direction_x
-        self.y = self.y + self.engine.delta_time * 100 * self.direction_y
+        self.x = self.x + self.engine.delta_time * self.direction_x
+        self.y = self.y + self.engine.delta_time * self.direction_y
         self.rect.x = self.x
-        self.rect.y = -10
+        self.rect.y = self.y
 
         #Keeps the ball on screen
         if self.rect.left < 0:

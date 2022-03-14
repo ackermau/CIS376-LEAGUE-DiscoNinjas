@@ -30,6 +30,7 @@ for x, y, image in map.layers[1].tiles():
     tmp.rect = tmp.image.get_rect()
     tmp.rect.x = x * map.tilewidth
     tmp.rect.y = y * map.tileheight
+    tmp.type = "platform"
     level_one.drawables.append(tmp)
     level_one.collideables.append(tmp)
 
@@ -40,6 +41,7 @@ for x, y, image in map.layers[2].tiles():
     tmp.rect = tmp.image.get_rect()
     tmp.rect.x = x * map.tilewidth
     tmp.rect.y = y * map.tileheight
+    tmp.type = "torch"
     level_one.drawables.append(tmp)
     level_one.updateables.append(tmp)
     level_one.collideables.append(tmp)

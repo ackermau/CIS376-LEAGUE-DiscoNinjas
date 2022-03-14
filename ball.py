@@ -30,15 +30,21 @@ class Ball(league.DUGameObject):
         self.direction_y += 10
 
         # Did we collide?
-        collide = False
+        on_platform = False
+        can_jump = False
 
         for collideable in self.scene.collideables:
             if self.rect.colliderect(collideable.rect):
-                collide = True
+                if collideable.type == "torch":
+                    # self.scene.score += 1
+                    pass
+                elif collideable.type == "platform":
+                    on_platform = True
 
-        if collide:
+        if on_platform:
             self.direction_y = 0
-            self.can_jump = True
+            can_jump = True
+        
 
         # Moves our ball
         self.x = self.x + self.engine.delta_time * self.direction_x
@@ -67,5 +73,5 @@ class Ball(league.DUGameObject):
                 if event.key == pg.K_d:
                     self.direction_x = 100
                 if event.key == pg.K_SPACE:
-                    if self.can_jump:
-                        self.direction_y = 100
+                    if can_jump:
+                        self.y -= 100

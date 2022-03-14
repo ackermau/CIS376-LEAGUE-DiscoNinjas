@@ -1,10 +1,11 @@
 import league
 import game_math as gm
 import pygame as pg
+from scroller import Scroller
 
 
 class Ball(league.DUGameObject):
-    def __init__(self, engine, scene, controller):
+    def __init__(self, engine, scene, controller, spawn_x, spawn_y):
         super().__init__()
         self.engine = engine
         self.scene = scene
@@ -12,6 +13,7 @@ class Ball(league.DUGameObject):
         self.dirty = 2
         self.can_jump = False
         self.controller = controller
+        scroller_spawn = Scroller(league.Engine, league.Scene, self, spawn_x, spawn_y)
 
         # Making of our ball
         self.image = pg.Surface((32, 32))
@@ -23,6 +25,8 @@ class Ball(league.DUGameObject):
         self.rect = self.image.get_rect()
         self.x = 400
         self.y = 1500
+        self.spawn_x = scroller_spawn.get_x()
+        self.spawn_y = scroller_spawn.get_y()
         self.direction_x = 1
         self.direction_y = 1
         self.vel = gm.Vector3(0,0,0)
@@ -30,8 +34,14 @@ class Ball(league.DUGameObject):
         self.jump = gm.Vector3(0,-300,0)
         self.j = 0
 
-    def update(self):
+    def set_y_p(self, index):
+        self.start_y = index
+        self.y = index
+    def set_x_p(self, index):
+        self.x = index
+        self.start_x = index
 
+    def update(self):
         # Did we collide?
         on_platform = False
         can_move = True
@@ -42,6 +52,10 @@ class Ball(league.DUGameObject):
                     self.controller.score += 1
                     self.scene.collideables.remove(collideable)
                     self.scene.drawables.remove(collideable)
+                if collideable.type == "shots":
+                    self.controller.lives -= 1
+                    self.x = self.spawn_x
+                    self.y = self.spawn_y
                 if collideable.type == "platform":
                     on_platform = True
                     if self.rect.collidepoint(collideable.rect.midleft) or self.rect.collidepoint(collideable.rect.midright):
@@ -51,9 +65,8 @@ class Ball(league.DUGameObject):
                     if self.rect.collidepoint(collideable.rect.midbottom):
                         self.vel.y *= -1
 
-        # if self.rect.collidepoint(self.rect.left) or self.rect.collid(self.rect.right):
-        #     can_move = False
-        #     print(can_move)
+        print(self.spawn_x)
+        print(self.spawn_y)
 
         if self.x > 800:
             self.x = 0
@@ -98,30 +111,3 @@ class Ball(league.DUGameObject):
                         self.accel.y = 400
                         self.vel += self.jump
                         self.j = 1
-
-class Enemy(league.DUGameObject):
-    def __init__(self,engine,scene):
-        self.engine = engine
-        self.scene = scene
-        self.start_y = 0
-        self.x = 0
-        self.y = 0
-
-    def set_y(self, index):
-        self.start_y = index
-        self.y = index
-    def set_x(self, index):
-        self.x = index
-
-    def update(self):
-
-        self.direction_x = 20
-        self.direction_y = 0
-
-            # Moves our enemies
-        if self.x > 800:
-            self.x = 0
-        self.x = self.x + self.engine.delta_time * self.direction_x
-        self.y = self.y + self.engine.delta_time * self.direction_y
-        self.rect.x = self.x * 32
-        self.rect.y = self.y * 32

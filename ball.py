@@ -25,7 +25,7 @@ class Ball(league.DUGameObject):
         self.direction_x = 1
         self.direction_y = 1
         self.vel = gm.Vector3(0,0,0)
-        self.accel = gm.Vector3(0,100,0)
+        self.accel = gm.Vector3(0,400,0)
         self.jump = gm.Vector3(0,-200,0)
         self.j = 0
 
@@ -47,7 +47,7 @@ class Ball(league.DUGameObject):
             self.accel.y = 0
             self.can_jump = True
         if on_platform == False:
-            self.accel.y = 100
+            self.accel.y = 300
             self.j = 0
             self.can_jump = False
         # Moves our ball
@@ -58,18 +58,10 @@ class Ball(league.DUGameObject):
         self.rect.y = self.y
 
         # Keeps the ball on screen
-        # if self.rect.left < 0:
-        #     self.rect.left = 0
-        #     self.direction_x = 1
-        # if self.rect.right > 1023:
-        #     self.rect.right = 1023
-        #     self.direction_x = -1
-        # if self.rect.top < 0:
-        #     self.rect.top = 0
-        #     self.direction_y = 1
-        # if self.rect.bottom > 768:
-        #     self.rect.bottom = 768
-        #     self.direction_y = -1
+        if self.rect.left < 0:
+            self.rect.left = 0
+        if self.rect.right > self.engine.width:
+            self.rect.right = self.engine.width
 
         for event in self.engine.events:
             if event.type == pg.KEYDOWN:
@@ -77,9 +69,9 @@ class Ball(league.DUGameObject):
                     self.vel.x -= 50
                 if event.key == pg.K_d:
                     self.vel.x += 50
-                if event.key == pg.K_w:
+                if event.key == pg.K_SPACE:
                     if self.can_jump:
-                        self.accel.y = 100
+                        self.accel.y = 400
                         self.vel += self.jump
                         self.j = 1
 

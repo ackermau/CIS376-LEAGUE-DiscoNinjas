@@ -3,14 +3,16 @@ import league
 import ball
 import pygame
 import pytmx
-level_one = pytmx.TiledMap('Map/baseMap.tmx')
+
+from scroller import Scroller
+
 
 level_one = league.Scene("Level One")
 level_one.set_fps(60)
 engine = league.Engine("Disco Ninjas blue ball          z", level_one)
 engine.init_pygame()
 
-screen = pygame.display.set_mode((1600, 800))
+screen = pygame.display.set_mode((1600, 1600))
 map = load_pygame('Map/baseMap.tmx')
 
 
@@ -50,7 +52,7 @@ enemy = ball.Enemy(engine, level_one, 0, 400)
 enemy2 = ball.Enemy(engine, level_one, 0, 200)
 enemy3 = ball.Enemy(engine, level_one, 0, 560)
 enemy4 = ball.Enemy(engine, level_one, 0, 860)
-ball = ball.Ball(engine, level_one)
+player = ball.Ball(engine, level_one)
 level_one.drawables.append(enemy)
 level_one.updateables.append(enemy)
 enemy.type = "enemy"
@@ -67,6 +69,11 @@ level_one.drawables.append(enemy4)
 level_one.updateables.append(enemy4)
 level_one.collideables.append(enemy4)
 enemy4.type = "enemy"
-level_one.drawables.append(ball)
-level_one.updateables.append(ball)
+level_one.drawables.append(player)
+level_one.updateables.append(player)
+
+
+scroller = Scroller(engine, level_one, player)
+level_one.updateables.append(scroller)
+
 engine.run()

@@ -12,12 +12,19 @@ class Engine:
     visible_statistics = False
     delta_time = 0
     events = None
+    scenes = []
 
 # Sets the title and the scene for the engine
     def __init__(self, title, scene):
         self.title = title
         self.scene = scene
+        self.scenes.append(scene)
 
+    def add_scene(self, scene):
+        self.scenes.append(scene)
+
+    def set_scene(self, index):
+        self.scene = self.scenes[index]
 
     def toggle_statistics(self):
         self.visible_statistics = True

@@ -4,16 +4,19 @@ import ball
 import pygame
 import pytmx
 from controller import GameController
+from win import WinController
+from lose import LoseController
 
 from scroller import Scroller
 
-
 level_one = league.Scene("Level One")
 level_one.set_fps(60)
+# level_two = league.Scene("You Win")
+# level_two.set_fps(60)
 engine = league.Engine("Disco Ninjas blue ball          z", level_one)
 engine.init_pygame()
 
-screen = pygame.display.set_mode((800, 1600))
+screen = pygame.display.set_mode((800, 800))
 map = load_pygame('Map/baseMap.tmx')
 
 
@@ -51,41 +54,35 @@ for x, y, image in map.layers[2].tiles():
     level_one.updateables.append(tmp)
     level_one.collideables.append(tmp)
 
-enemy = ball.Enemy(engine, level_one, 0, 400)
-enemy2 = ball.Enemy(engine, level_one, 0, 200)
-enemy3 = ball.Enemy(engine, level_one, 0, 560)
-enemy4 = ball.Enemy(engine, level_one, 0, 860)
+for x, y, image in map.layers[3].tiles():
+    tmp = league.DUGameObject()
+    tmp._layer = map.layers[3].tiles()
+    tmp.image = image
+    tmp.rect = tmp.image.get_rect()
+    tmp.rect.x = x * map.tilewidth
+    tmp.rect.y = y * map.tileheight
+    tmp.type = "turrent"
+    level_one.drawables.append(tmp)
 
-
-enemy.type = "enemy"
-level_one.drawables.append(enemy)
-level_one.updateables.append(enemy)
-level_one.collideables.append(enemy)
-
-enemy2.type = "enemy"
-level_one.drawables.append(enemy2)
-level_one.updateables.append(enemy2)
-level_one.collideables.append(enemy2)
-
-enemy3.type = "enemy"
-level_one.drawables.append(enemy3)
-level_one.updateables.append(enemy3)
-level_one.collideables.append(enemy3)
-
-enemy4.type = "enemy"
-level_one.drawables.append(enemy4)
-level_one.updateables.append(enemy4)
-level_one.collideables.append(enemy4)
+for x, y, image in map.layers[4].tiles():
+    tmp = ball.Enemy(engine, level_one)
+    tmp._layer = map.layers[4].tiles()
+    tmp.image = image
+    tmp.rect = tmp.image.get_rect()
+    tmp.set_y(y)
+    tmp.set_x(x)
+    tmp.rect.x = x * map.tilewidth
+    tmp.rect.y = y * map.tileheight
+    tmp.type = "shots"
+    level_one.drawables.append(tmp)
+    level_one.updateables.append(tmp)
 
 controller = GameController(engine, torch_count)
 level_one.updateables.append(controller)
 level_one.drawables.append(controller)
-
-
-player = ball.Ball(engine, level_one, controller)
+player = ball.Ball(engine, level_one,controller)
 level_one.drawables.append(player)
 level_one.updateables.append(player)
-
 scroller = Scroller(engine, level_one, player)
 level_one.updateables.append(scroller)
 

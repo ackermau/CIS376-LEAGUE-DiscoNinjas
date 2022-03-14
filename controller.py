@@ -10,6 +10,7 @@ blue = (0, 0, 128)
 class GameController(league.DUGameObject):
     def __init__(self, engine, total_torches):
         super().__init__()
+        self.engine = engine
         self.score = 0
         self.total = total_torches
         self.font = pg.font.Font(pg.font.get_default_font(), 16)
@@ -20,11 +21,11 @@ class GameController(league.DUGameObject):
         
 
     def update(self):
-        if self.score < 15:
+        # if self.score < 1:
             text = self.font.render(f"Score: {self.score}/{self.total}", True, blue)
-        else:
-            text = self.font.render(f"You Win", True, blue)
-        self.rect = text.get_rect()
-        self.rect.center = (50, 50)
-        self.rect = text.get_rect()
-        self.image = text
+            self.rect = text.get_rect()
+            self.rect.center = (50, 50)
+            self.rect = text.get_rect()
+            self.image = text
+        #else:
+            #self.engine.set_scene(1)

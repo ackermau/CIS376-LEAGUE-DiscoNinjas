@@ -69,7 +69,7 @@ class Engine:
             for obj in self.scene.drawables:
                 obj.draw(screen)
 
-            #changes the display to the second buffer
+            #changes the display to the second buffer?
             pygame.display.flip()
 
             # Busy wait until our delta time is equal to our target frame time in ms.

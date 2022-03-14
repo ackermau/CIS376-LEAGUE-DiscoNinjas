@@ -3,6 +3,7 @@ import league
 import ball
 import pygame
 import pytmx
+from controller import GameController
 
 from scroller import Scroller
 
@@ -12,7 +13,7 @@ level_one.set_fps(60)
 engine = league.Engine("Disco Ninjas blue ball          z", level_one)
 engine.init_pygame()
 
-screen = pygame.display.set_mode((1600, 1600))
+screen = pygame.display.set_mode((800, 1600))
 map = load_pygame('Map/baseMap.tmx')
 
 
@@ -36,7 +37,9 @@ for x, y, image in map.layers[1].tiles():
     level_one.drawables.append(tmp)
     level_one.collideables.append(tmp)
 
+torch_count = 0
 for x, y, image in map.layers[2].tiles():
+    torch_count += 1
     tmp = league.DUGameObject()
     tmp._layer = map.layers[2].tiles()
     tmp.image = image
@@ -52,26 +55,36 @@ enemy = ball.Enemy(engine, level_one, 0, 400)
 enemy2 = ball.Enemy(engine, level_one, 0, 200)
 enemy3 = ball.Enemy(engine, level_one, 0, 560)
 enemy4 = ball.Enemy(engine, level_one, 0, 860)
-player = ball.Ball(engine, level_one)
+
+
+enemy.type = "enemy"
 level_one.drawables.append(enemy)
 level_one.updateables.append(enemy)
-enemy.type = "enemy"
 level_one.collideables.append(enemy)
+
+enemy2.type = "enemy"
 level_one.drawables.append(enemy2)
 level_one.updateables.append(enemy2)
 level_one.collideables.append(enemy2)
-enemy2.type = "enemy"
+
+enemy3.type = "enemy"
 level_one.drawables.append(enemy3)
 level_one.updateables.append(enemy3)
 level_one.collideables.append(enemy3)
-enemy3.type = "enemy"
+
+enemy4.type = "enemy"
 level_one.drawables.append(enemy4)
 level_one.updateables.append(enemy4)
 level_one.collideables.append(enemy4)
-enemy4.type = "enemy"
+
+controller = GameController(engine, torch_count)
+level_one.updateables.append(controller)
+level_one.drawables.append(controller)
+
+
+player = ball.Ball(engine, level_one, controller)
 level_one.drawables.append(player)
 level_one.updateables.append(player)
-
 
 scroller = Scroller(engine, level_one, player)
 level_one.updateables.append(scroller)

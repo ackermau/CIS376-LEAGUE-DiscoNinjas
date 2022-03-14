@@ -25,4 +25,3 @@ class Scroller(league.UGameObject):
                 obj.rect.y += 4
             self.viewport_max -= 4
             self.viewport_min -= 4
-        print(self.viewport_min, self.viewport_max, self.player.rect.y)

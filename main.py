@@ -91,6 +91,7 @@ for x, y, image in map.layers[5].tiles():
     spawn_y = tmp.rect.y
     level_one.drawables.append(tmp)
     level_one.updateables.append(tmp)
+    level_one.collideables.append(tmp)
 
 controller = GameController(engine, torch_count, screen)
 level_one.updateables.append(controller)

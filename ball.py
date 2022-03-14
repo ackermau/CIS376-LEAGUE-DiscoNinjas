@@ -54,8 +54,8 @@ class Ball(league.DUGameObject):
                     self.scene.drawables.remove(collideable)
                 if collideable.type == "shots":
                     self.controller.lives -= 1
-                    self.x = self.spawn_x
-                    self.y = self.spawn_y
+                    self.vel.x += collideable.direction_x
+                    self.vel.y += collideable.direction_y
                 if collideable.type == "platform":
                     on_platform = True
                     if self.rect.collidepoint(collideable.rect.midleft) or self.rect.collidepoint(collideable.rect.midright):
@@ -64,9 +64,6 @@ class Ball(league.DUGameObject):
                         self.accel.x = 0
                     if self.rect.collidepoint(collideable.rect.midbottom):
                         self.vel.y *= -1
-
-        print(self.spawn_x)
-        print(self.spawn_y)
 
         if self.x > 800:
             self.x = 0

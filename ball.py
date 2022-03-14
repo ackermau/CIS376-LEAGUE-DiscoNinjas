@@ -1,4 +1,5 @@
 import league
+import game_math as gm
 import pygame as pg
 
 
@@ -23,15 +24,15 @@ class Ball(league.DUGameObject):
         self.y = 400
         self.direction_x = 1
         self.direction_y = 1
+        self.vel = gm.Vector3(0,0,0)
+        self.accel = gm.Vector3(0,100,0)
+        self.jump = gm.Vector3(0,-200,0)
+        self.j = 0
 
     def update(self):
 
-        # Downwards acceleration
-        self.direction_y += 10
-
         # Did we collide?
         on_platform = False
-        can_jump = False
 
         for collideable in self.scene.collideables:
             if self.rect.colliderect(collideable.rect):
@@ -41,14 +42,18 @@ class Ball(league.DUGameObject):
                 elif collideable.type == "platform":
                     on_platform = True
 
-        if on_platform:
-            self.direction_y = 0
-            can_jump = True
-        
-
+        if on_platform and self.j == 0:
+            self.vel.y = 0
+            self.accel.y = 0
+            self.can_jump = True
+        if on_platform == False:
+            self.accel.y = 100
+            self.j = 0
+            self.can_jump = False
         # Moves our ball
-        self.x = self.x + self.engine.delta_time * self.direction_x
-        self.y = self.y + self.engine.delta_time * self.direction_y
+        self.vel += self.accel.scale(self.engine.delta_time)
+        self.x = self.x + self.engine.delta_time * self.vel.x * self.direction_x
+        self.y = self.y + self.engine.delta_time * self.vel.y * self.direction_y
         self.rect.x = self.x
         self.rect.y = self.y
 
@@ -69,9 +74,11 @@ class Ball(league.DUGameObject):
         for event in self.engine.events:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_a:
-                    self.direction_x = -100
+                    self.vel.x -= 50
                 if event.key == pg.K_d:
-                    self.direction_x = 100
-                if event.key == pg.K_SPACE:
-                    if can_jump:
-                        self.y -= 100
+                    self.vel.x += 50
+                if event.key == pg.K_w:
+                    if self.can_jump:
+                        self.accel.y = 100
+                        self.vel += self.jump
+                        self.j = 1

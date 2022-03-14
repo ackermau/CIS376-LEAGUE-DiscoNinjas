@@ -42,6 +42,11 @@ class Ball(league.DUGameObject):
                     self.controller.score += 1
                     self.scene.collideables.remove(collideable)
                     self.scene.drawables.remove(collideable)
+                if collideable.type == "shots":
+                    self.controller.lives -= 1
+                    self.x = 400
+                    self.y = 1500
+                    
                 if collideable.type == "platform":
                     on_platform = True
                     if self.rect.collidepoint(collideable.rect.midleft) or self.rect.collidepoint(collideable.rect.midright):
@@ -106,21 +111,27 @@ class Enemy(league.DUGameObject):
         self.start_y = 0
         self.x = 0
         self.y = 0
+        self.start_x = 0
 
     def set_y(self, index):
         self.start_y = index
         self.y = index
     def set_x(self, index):
         self.x = index
+        self.start_x = index
 
     def update(self):
-
-        self.direction_x = 20
+        if(self.start_x < 20):
+            self.direction_x = 20
+        else:
+            self.direction_x = -20
         self.direction_y = 0
 
             # Moves our enemies
-        if self.x > 800:
+        if self.x > 30:
             self.x = 0
+        if self.x < 0:
+            self.x = 25
         self.x = self.x + self.engine.delta_time * self.direction_x
         self.y = self.y + self.engine.delta_time * self.direction_y
         self.rect.x = self.x * 32

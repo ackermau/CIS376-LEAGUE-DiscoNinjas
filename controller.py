@@ -12,6 +12,8 @@ class GameController(league.DUGameObject):
         super().__init__()
         self.engine = engine
         self.score = 0
+        self.lives = 5
+        self.totLives = 5
         self.total = total_torches
         self.font = pg.font.Font(pg.font.get_default_font(), 16)
         text = self.font.render(f"Torches: {self.score}/{self.total}", True, blue)

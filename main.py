@@ -76,6 +76,7 @@ for x, y, image in map.layers[4].tiles():
     tmp.type = "shots"
     level_one.drawables.append(tmp)
     level_one.updateables.append(tmp)
+    level_one.collideables.append(tmp)
 
 controller = GameController(engine, torch_count)
 level_one.updateables.append(controller)

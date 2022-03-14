@@ -4,14 +4,13 @@ import pygame as pg
 
 
 class Ball(league.DUGameObject):
-    def __init__(self, engine, scene, controller):
+    def __init__(self, engine, scene):
         super().__init__()
         self.engine = engine
         self.scene = scene
         self._layer = 1
         self.dirty = 2
         self.can_jump = False
-        self.controller = controller
 
         # Making of our ball
         self.image = pg.Surface((32, 32))
@@ -22,7 +21,7 @@ class Ball(league.DUGameObject):
         # Sets the Starting point of our Ball
         self.rect = self.image.get_rect()
         self.x = 400
-        self.y = 400
+        self.y = 1500
         self.direction_x = 1
         self.direction_y = 1
         self.vel = gm.Vector3(0,0,0)
@@ -38,11 +37,16 @@ class Ball(league.DUGameObject):
         for collideable in self.scene.collideables:
             if self.rect.colliderect(collideable.rect):
                 if collideable.type == "torch":
-                    self.controller.score += 1
-                    self.scene.collideables.remove(collideable)
-                    self.scene.drawables.remove(collideable)
+                    # self.scene.score += 1
+                    pass
                 elif collideable.type == "platform":
                     on_platform = True
+
+        if self.x > 800:
+            self.x = 0
+        
+        if self.x < 0:
+            self.x = 800
 
         if on_platform and self.j == 0:
             self.vel.y = 0
@@ -60,10 +64,10 @@ class Ball(league.DUGameObject):
         self.rect.y = self.y
 
         # Keeps the ball on screen
-        if self.rect.left < 0:
-            self.rect.left = 0
-        if self.rect.right > self.engine.width:
-            self.rect.right = self.engine.width
+        # if self.rect.left < 0:
+        #     self.rect.left = 0
+        # if self.rect.right > self.engine.width:
+        #     self.rect.right = self.engine.width
 
         for event in self.engine.events:
             if event.type == pg.KEYDOWN:

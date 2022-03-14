@@ -20,7 +20,10 @@ class GameController(league.DUGameObject):
         
 
     def update(self):
-        text = self.font.render(f"Score: {self.score}/{self.total}", True, blue)
+        if self.score < 15:
+            text = self.font.render(f"Score: {self.score}/{self.total}", True, blue)
+        else:
+            text = self.font.render(f"You Win", True, blue)
         self.rect = text.get_rect()
         self.rect.center = (50, 50)
         self.rect = text.get_rect()

@@ -4,13 +4,14 @@ import pygame as pg
 
 
 class Ball(league.DUGameObject):
-    def __init__(self, engine, scene):
+    def __init__(self, engine, scene, controller):
         super().__init__()
         self.engine = engine
         self.scene = scene
         self._layer = 1
         self.dirty = 2
         self.can_jump = False
+        self.controller = controller
 
         # Making of our ball
         self.image = pg.Surface((32, 32))
@@ -37,9 +38,10 @@ class Ball(league.DUGameObject):
         for collideable in self.scene.collideables:
             if self.rect.colliderect(collideable.rect):
                 if collideable.type == "torch":
-                    # self.scene.score += 1
-                    pass
-                elif collideable.type == "platform":
+                    self.controller.score += 1
+                    self.scene.collideables.remove(collideable)
+                    self.scene.drawables.remove(collideable)
+                if collideable.type == "platform":
                     on_platform = True
 
         if self.x > 800:
@@ -56,6 +58,7 @@ class Ball(league.DUGameObject):
             self.accel.y = 300
             self.j = 0
             self.can_jump = False
+
         # Moves our ball
         self.vel += self.accel.scale(self.engine.delta_time)
         self.x = self.x + self.engine.delta_time * self.vel.x * self.direction_x
